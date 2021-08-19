@@ -1,3 +1,9 @@
 from django.contrib import admin
+from app_user.models import UserDetail
 
-# Register your models here.
+
+class UserDetailAdmin(admin.ModelAdmin):
+    model = UserDetail
+
+
+admin.site.register(UserDetail, UserDetailAdmin)
