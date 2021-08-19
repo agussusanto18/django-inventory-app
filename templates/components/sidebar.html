@@ -17,7 +17,7 @@
             <nav id="main-menu-navigation" class="navigation-main">
                 <div class="nav-lavel">Navigation</div>
                 <div class="nav-item">
-                    <a href="../index.html"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
+                    <a href="{% url 'admin-home' %}"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
                 </div>
                 {% comment %} <div class="nav-item">
                     <a href="navbar.html"><i class="ik ik-menu"></i><span>Navigation</span> <span class="badge badge-success">New</span></a>
@@ -25,13 +25,15 @@
                 <div class="nav-item has-sub">
                     <a href="javascript:void(0)"><i class="ik ik-package"></i><span>Barang</span> <span class="badge badge-danger">150+</span></a>
                     <div class="submenu-content">
-                        <a href="widget-statistic.html" class="menu-item">List Barang</a>
-                        <a href="widgets.html" class="menu-item">Tambah Barang</a>
+                        <a href="{% url 'item-list' %}" class="menu-item">List Barang</a>
+                        <a href="{% url 'item-create' %}" class="menu-item">Tambah Barang</a>
                     </div>
                 </div>
-
                 <div class="nav-item">
-                    <a href="navbar.html"><i class="ik ik-user"></i><span>Users</span></a>
+                    <a href="{% url 'reservation-list' %}"><i class="ik ik-terminal"></i><span>Reservasi</span></a>
+                </div>
+                <div class="nav-item">
+                    <a href="{% url 'user-list' %}"><i class="ik ik-user"></i><span>Users</span></a>
                 </div>
 
                 {% comment %} <div class="nav-item has-sub">

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Tambah Barang {% endblock title %}
+
+{% block heading %}
+<h5>Tambah Barang</h5>
+<span>Tambah Barang Material</span>
+{% endblock heading %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'item-list' %}">Barang</a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">Tambah Barang</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+Tambah Barang
+{% endblock content %}

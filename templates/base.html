@@ -5,7 +5,9 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Dashboard</title>
+        <title>
+        {% block title %}{% endblock title %}
+        </title>
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,8 +40,7 @@
                                     <div class="page-header-title">
                                         <i class="ik ik-file-text bg-blue"></i>
                                         <div class="d-inline">
-                                            <h5>Profile</h5>
-                                            <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                            {% block heading %}{% endblock heading %}
                                         </div>
                                     </div>
                                 </div>
@@ -47,12 +48,9 @@
                                     <nav class="breadcrumb-container" aria-label="breadcrumb">
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item">
-                                                <a href="../index.html"><i class="ik ik-home"></i></a>
+                                                <a href="{% url 'user-home' %}"><i class="ik ik-home"></i></a>
                                             </li>
-                                            <li class="breadcrumb-item">
-                                                <a href="#">Pages</a>
-                                            </li>
-                                            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                                            {% block breadcrumb %}{% endblock breadcrumb %}
                                         </ol>
                                     </nav>
                                 </div>

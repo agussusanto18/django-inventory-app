@@ -1,0 +1,41 @@
+{% extends 'base-auth.html' %}
+
+{% block title %} Signup {% endblock title %}
+
+{% block content %}
+
+<h3>New to ThemeKit</h3>
+<p>Join us today! It takes only few steps</p>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        {{form.username}}
+        <i class="ik ik-user"></i>
+    </div>
+    <div class="form-group">
+        {{form.first_name}}
+        <i class="ik ik-user"></i>
+    </div>
+    <div class="form-group">
+        {{form.last_name}}
+        <i class="ik ik-user"></i>
+    </div>
+    <div class="form-group">
+        {{form.email}}
+        <i class="ik ik-mail"></i>
+    </div>
+    <div class="form-group">
+        {{form.password}}
+        <i class="ik ik-lock"></i>
+    </div>
+    <div class="sign-btn text-center">
+        <button class="btn btn-theme" type="submit">Register</button>
+    </div>
+</form>
+<div class="register">
+    <p>Already have an account? <a href="{% url 'signin' %}">Sign In</a></p>
+</div>
+
+{% endblock content %}
