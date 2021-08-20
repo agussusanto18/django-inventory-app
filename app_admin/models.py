@@ -19,7 +19,7 @@ class Reservation(models.Model):
     schedule = models.DateTimeField()
     nik = models.CharField(max_length=80)
     name = models.CharField(max_length=80)
-    status = models.CharField(max_length=50, choices=ReservationStatus.choices, default=ReservationStatus.PANDING)
+    status = models.IntegerField(choices=ReservationStatus.choices, default=ReservationStatus.PANDING)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

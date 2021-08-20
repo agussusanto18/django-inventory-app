@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from utils.helpers import is_admin
+from app_admin.models import Item, Reservation
 
 
 @login_required(login_url='/signin/')
@@ -14,7 +15,9 @@ def home(request):
 @login_required(login_url='/signin/')
 def item_list(request):
     if is_admin(request.user):
-        return render(request, 'app_admin/item-list.html')
+        items = Item.objects.all().order_by('-id')
+        context = {'items': items}
+        return render(request, 'app_admin/item-list.html', context)
     else:
         return redirect('user-home')
 
@@ -26,6 +29,15 @@ def item_create(request):
     else:
         return redirect('user-home')
 
+@login_required(login_url='/signin/')
+def item_delete(request, pk):
+    if is_admin(request.user):
+        result = Item.objects.filter(pk=pk)
+        result.delete()
+
+        return redirect('item-list')
+    else:
+        return redirect('user-home')
 
 @login_required(login_url='/signin/')
 def user_list(request):
@@ -38,6 +50,8 @@ def user_list(request):
 @login_required(login_url='/signin/')
 def reservation_list(request):
     if is_admin(request.user):
-        return render(request, 'app_admin/reservation-list.html')
+        reservations = Reservation.objects.all().order_by('-id')
+        context = {"reservations": reservations}
+        return render(request, 'app_admin/reservation-list.html', context)
     else:
         return redirect('user-home')
