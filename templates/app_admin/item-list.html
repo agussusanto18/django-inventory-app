@@ -46,8 +46,8 @@
                         <td>{{item.stock}}</td>
                         <td>Rp {{item.price}}</td>
                         <td>
-                            <a href="#!"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
-                            <a href="{% url 'item-delete' item.pk %}"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                            <a href="{% url 'item-update' item.pk %}"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
+                            <a href="{% url 'item-delete' item.pk %}" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');"><i class="ik ik-trash-2 f-16 text-red"></i></a>
                         </td>
                     </tr>
                     {% endfor %}

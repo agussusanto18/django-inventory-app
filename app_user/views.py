@@ -65,11 +65,9 @@ def signup(request):
                     return redirect('signin')
                 else:
                     return redirect('signup')
-            else:
-                return redirect('signup')
-        else:
-            context = {'form': form}
-            return render(request, 'app_user/signup.html', context)
+
+        context = {'form': form}
+        return render(request, 'app_user/signup.html', context)
     else:
         if is_admin(request.user):
             return redirect('admin-home')

@@ -34,7 +34,9 @@
                 <thead>
                     <tr>
                         <th>Nik</th>
-                        <th>Name</th>
+                        <th>Nama</th>
+                        <th>Tanggal Pengambilan</th>
+                        <th>Dibuat Pada</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -44,6 +46,8 @@
                     <tr>
                         <td>{{reservation.nik}}</td>
                         <td>{{reservation.name}}</td>
+                        <td>{{reservation.schedule}}</td>
+                        <td>{{reservation.created}}</td>
                         <td>
                         {% if reservation.status == 1 %}
                         DITERIMA
@@ -58,8 +62,7 @@
                         {% endif %}
                         </td>
                         <td>
-                            <a href="#"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
-                            <a href="#"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                            <a href="{% url 'reservation-detail' reservation.pk %}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
                         </td>
                     </tr>
                     {% endfor %}

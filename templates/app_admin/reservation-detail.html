@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %} Reservation {% endblock title %}
+
+{% block heading_icon %}
+<i class="ik ik-layers bg-blue"></i>
+{% endblock heading_icon %}
+
+{% block heading %}
+<h5>Detail Reservasi</h5>
+<span>Detail reservasi barang</span>
+{% endblock heading %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'reservation-list' %}">Reservasi</a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">{{reservation.nik}}</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-5">
+        <div class="card table-card">
+            <div class="card-header">
+                <h3>Info Reservasi</h3>
+            </div>
+            <div class="card-block">
+                <table class="table">
+                    <tr>
+                        <th>Nik</th>
+                        <th>{{reservation.nik}}</th>
+                    </tr>
+                    <tr>
+                        <th>Nama</th>
+                        <th>{{reservation.name}}</th>
+                    </tr>
+                    <tr>
+                        <th>Tanggal Pengambilan</th>
+                        <th>{{reservation.schedule}}</th>
+                    </tr>
+                    <tr>
+                        <th>Dibuat Pada</th>
+                        <th>{{reservation.created}}</th>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <th>
+                            {% if reservation.status == 1 %}
+                            DITERIMA
+                            {% endif %}
+
+                            {% if reservation.status == 2 %}
+                            PANDING
+                            {% endif %}
+
+                            {% if reservation.status == 3 %}
+                            DITOLAK
+                            {% endif %}
+                        </th>
+                    </tr>
+                </table>
+            
+                <center>
+                    <a href="{% url 'reservation-approve' reservation.pk %}" class="btn btn-success">Terima</a>
+                    <a href="{% url 'reservation-reject' reservation.pk %}" class="btn btn-danger">Tolak</a>
+                </center>
+            </div>
+        </div>
+    </div>
+    <div class="col-7">
+        <div class="card table-card">
+            <div class="card-header">
+                <h3>List Item</h3>
+            </div>
+            <div class="card-block">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Nama Barang</th>
+                                <th>Quantitas</th>
+                                <th>Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in reservation_items %}
+                            <tr>
+                                <td>{{item.provider}}</td>
+                                <td>{{item.item.name}}</td>
+                                <td>{{item.quantity}}</td>
+                                <td>{{item.unit}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

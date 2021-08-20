@@ -9,26 +9,32 @@
 
 <form action="" method="POST">
     {% csrf_token %}
+
     
     <div class="form-group">
         {{form.username}}
         <i class="ik ik-user"></i>
+        {{form.errors.username}}
     </div>
     <div class="form-group">
         {{form.first_name}}
         <i class="ik ik-user"></i>
+        {{form.errors.first_name}}
     </div>
     <div class="form-group">
         {{form.last_name}}
         <i class="ik ik-user"></i>
+        {{form.errors.last_name}}
     </div>
     <div class="form-group">
         {{form.email}}
         <i class="ik ik-mail"></i>
+        {{form.errors.email}}
     </div>
     <div class="form-group">
         {{form.password}}
         <i class="ik ik-lock"></i>
+        {{form.errors.password}}
     </div>
     <div class="sign-btn text-center">
         <button class="btn btn-theme" type="submit">Register</button>

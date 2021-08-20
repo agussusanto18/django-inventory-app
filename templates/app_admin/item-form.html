@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} {{title}} {% endblock title %}
+
+{% block heading_icon %}
+<i class="ik ik-package bg-blue"></i>
+{% endblock heading_icon %}
+
+{% block heading %}
+<h5>{{title}}</h5>
+<span>Tambah Barang Material</span>
+{% endblock heading %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'item-list' %}">Barang</a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-5 col-md-8 col-sm-12">
+        <form action="" method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{form.name}}
+            </div>
+            <div class="form-group">
+                {{form.price}}
+            </div>
+            <div class="form-group">
+                {{form.stock}}
+            </div>
+            <div class="sign-btn">
+                <button class="btn btn-success" type="submit">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
