@@ -1,5 +1,5 @@
 from django import forms
-from app_admin.models import Item, ItemReservation
+from app_admin.models import Item, ItemReservation, Reservation
 
 
 class ItemForm(forms.ModelForm):

@@ -90,9 +90,24 @@ def reservation_create(request):
     if is_admin(request.user):
         return redirect('admin-home')
     else:
-        context = {
-            'items': Item.objects.all().order_by('-id')
-        }
+        if request.method == 'POST':
+            nik = request.POST['nik']
+            name = request.POST['name']
+            schedule = request.POST['schedule']
+            reservation = Reservation.objects.create(
+                user=request.user,
+                nik=nik,
+                name=name,
+                schedule=schedule
+            ).save()
+
+            if reservation is None:
+                return redirect('user-reservation-list')
+        else:
+            context = {
+                'items': Item.objects.all().order_by('-id'),
+                'item_reservations': ItemReservation.objects.filter(user=request.user, reservation=None).order_by('-id')
+            }
 
         return render(request, 'app_user/reservation-create.html', context)
 
@@ -119,6 +134,8 @@ def item_reservation_create(request):
             )
 
             if reservation.save() is None:
+                item_reservations = ItemReservation.objects.filter(user=user, reservation=None).order_by('-id')
+
                 return JsonResponse({'status': 200, 'message': 'Berhasil Ditambahkan'})
             else:
                 return JsonResponse({'status': 500, 'message': 'Terjadi Kesalahan'})
@@ -126,3 +143,24 @@ def item_reservation_create(request):
             return JsonResponse({'status': 500, 'message': 'Terjadi Kesalahan'})
 
         return render(request, 'app_user/reservation-create.html')
+
+
+@login_required(login_url='/signin/')
+def item_reservation_json(request):
+    item_reservations = ItemReservation.objects.filter(user=request.user, reservation=None).order_by('-id')
+    item_json = [{
+        'id': item.pk, 
+        'provider': item.provider, 
+        'item': item.item.name, 
+        'quantity': item.quantity, 
+        'unit': item.unit
+    } for item in item_reservations]
+
+    return JsonResponse(item_json, safe=False)
+
+@login_required(login_url='/signin/')
+def item_reservation_delete_json(request, pk):
+    item_reservation = ItemReservation.objects.filter(pk=pk)
+    item_reservation.delete()
+
+    return JsonResponse({'status': 200, 'message': 'Berhasil di Hapus'})

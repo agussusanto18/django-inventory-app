@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} Tambah Reservasi {% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+{% endblock styles %}
 
 {% block heading_icon %}
 <i class="ik ik-layers bg-blue"></i>
@@ -21,15 +26,16 @@
 {% block content %}
 <div class="row">
     <div class="col-sm-12 col-md-5">
-        <form action="" method="post">
+        <form action="" method="post" id="form-reservation">
+            {% csrf_token %}
             <div class="form-group">
-                <input type="text" name="nik" id="nik" class="form-control" placeholder="Nik">
+                <input type="text" name="nik" id="nik" class="form-control" placeholder="Nik" required>
             </div>
             <div class="form-group">
-                <input type="text" name="name" id="name" class="form-control" placeholder="Nama">
+                <input type="text" name="name" id="name" class="form-control" placeholder="Nama" required>
             </div>
             <div class="form-group">
-                <input type="datetime" name="schedule" id="schedule" class="form-control" placeholder="Tanggal Pengambilan">
+                <input type="date" name="schedule" id="schedule" class="form-control" placeholder="Tanggal Pengambilan" required>
             </div>
         </form>
     </div>
@@ -66,10 +72,27 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-2">
-                    <button type="submit" class="btn btn-success w-100">Tambahkan</button>
+                    <button type="submit" class="btn btn-info w-100">Tambahkan</button>
                 </div>
             </div>
         </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Material</th>
+                    <th>Barang</th>
+                    <th>Kuantitas</th>
+                    <th>Unit</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="item-reservation-id">
+                
+            </tbody>
+        </table>
+
+        <button class="btn btn-lg btn-success" style="margin-top: 50px;" id="btn-submit-reservation">Ajukan Reservasi</button>
     </div>
 </div>
 {% endblock content %}
@@ -77,14 +100,26 @@
 {% block scripts %}
 <script>
     $(document).ready(function () {
+        getItemReservation();
+
         $('#form-item').submit(function (e) {
             e.preventDefault();
+            var inputProvider = $('#form-item input[name=provider]');
+            var inputItem = $('#form-item select[name=item]')
+            var inputQuantity = $('#form-item input[name=quantity]')
+            var inputUnit = $('#form-item input[name=unit]')
+
+            function clearForm(){
+                inputProvider.val("")
+                inputQuantity.val("")
+                inputUnit.val("")
+            }
 
             data = {
-                provider: $('#form-item input[name=provider]').val(),
-                item: $('#form-item select[name=item]').val(),
-                quantity: $('#form-item input[name=quantity]').val(),
-                unit: $('#form-item input[name=unit]').val(),
+                provider: inputProvider.val(),
+                item: inputItem.val(),
+                quantity: inputQuantity.val(),
+                unit: inputUnit.val(),
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             }
             
@@ -93,10 +128,55 @@
                type: $(this).attr('method'),
                data: data,
                success: function(response) {
-                    console.log(response)
-               } 
-            })            
+                    getItemReservation();
+                    clearForm();
+               }
+            });
+            
         });
+
+        $(document).on('click', '.btn-item-reservation-delete', function(){
+            var id = $(this).data('id')
+            var url = "{% url 'item-reservation-delete-json' '00' %}".replace('00', id) 
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response){
+                    getItemReservation();
+                }
+            });
+        });
+
+        $('#btn-submit-reservation').click(function(e){
+            $('#form-reservation').submit();
+        });
+
+
+        function getItemReservation(){
+            $.ajax({
+                url: "{% url 'item-reservation-json' %}",
+                type: 'GET',
+                success: function(response) {
+                    var el_html = ""; 
+                    response.forEach(e => {
+                        el_html += `
+                        <tr>
+                            <td>${e.provider}</td>
+                            <td>${e.item}</td>
+                            <td>${e.quantity}</td>
+                            <td>${e.unit}</td>
+                            <td>
+                                <a data-id='${e.id}' class='btn-item-reservation-delete' style='cursor: pointer;'><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                            </td>
+                        </tr>
+                        `;
+                    });
+                    $('#item-reservation-id').html(el_html);
+                }
+            });
+        }
+
     });
 </script>
 {% endblock scripts %}
