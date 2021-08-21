@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %} Tambah Reservasi {% endblock title %}
+
+{% block heading_icon %}
+<i class="ik ik-layers bg-blue"></i>
+{% endblock heading_icon %}
+
+{% block heading %}
+<h5>Tambah Reservasi</h5>
+<span>Tambah Reservasi Material</span>
+{% endblock heading %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'user-reservation-list' %}">Reservasi</a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">Tambah</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12 col-md-5">
+        <form action="" method="post">
+            <div class="form-group">
+                <input type="text" name="nik" id="nik" class="form-control" placeholder="Nik">
+            </div>
+            <div class="form-group">
+                <input type="text" name="name" id="name" class="form-control" placeholder="Nama">
+            </div>
+            <div class="form-group">
+                <input type="datetime" name="schedule" id="schedule" class="form-control" placeholder="Tanggal Pengambilan">
+            </div>
+        </form>
+    </div>
+    <div class="col-12">
+        <br><br><br>
+        <form action="{% url 'item-reservation-create' %}" method="post" id="form-item">
+            <div class="row">
+                <div class="col-sm-12 col-md-10">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <input type="text" name="provider" id="provider" placeholder="Material" class="form-control">                    
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <select name="item" id="item" class="form-control">
+                                    {% for item in items %}
+                                    <option value="{{item.pk}}">{{item.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <input type="number" name="quantity" id="quantity" placeholder="Kuantitas" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <input type="text" name="unit" id="unit" placeholder="Unit" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-2">
+                    <button type="submit" class="btn btn-success w-100">Tambahkan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $('#form-item').submit(function (e) {
+            e.preventDefault();
+
+            data = {
+                provider: $('#form-item input[name=provider]').val(),
+                item: $('#form-item select[name=item]').val(),
+                quantity: $('#form-item input[name=quantity]').val(),
+                unit: $('#form-item input[name=unit]').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+            
+            $.ajax({
+               url: $(this).attr('action'),
+               type: $(this).attr('method'),
+               data: data,
+               success: function(response) {
+                    console.log(response)
+               } 
+            })            
+        });
+    });
+</script>
+{% endblock scripts %}

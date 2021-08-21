@@ -5,6 +5,8 @@ from constants.enums import UserRole
 from django.contrib.auth.decorators import login_required
 from utils.helpers import is_admin
 from app_user.forms import SignUpForm
+from app_admin.models import Reservation, ItemReservation, Item
+from django.http import JsonResponse
 
 
 @login_required(login_url='/signin/')
@@ -73,3 +75,54 @@ def signup(request):
             return redirect('admin-home')
         else:
             return redirect('user-home')
+
+@login_required(login_url='/signin/')
+def reservation_list(request):
+    if is_admin(request.user):
+        return redirect('admin-home')
+    else:
+        reservations = Reservation.objects.filter(user=request.user).order_by('-id')
+        context = {"reservations": reservations}
+        return render(request, 'app_user/reservation-list.html', context)
+
+@login_required(login_url='/signin/')
+def reservation_create(request):
+    if is_admin(request.user):
+        return redirect('admin-home')
+    else:
+        context = {
+            'items': Item.objects.all().order_by('-id')
+        }
+
+        return render(request, 'app_user/reservation-create.html', context)
+
+@login_required(login_url='/signin/')
+def item_reservation_create(request):
+    if is_admin(request.user):
+        return redirect('admin-home')
+    else:
+        print(request.POST)
+        try:
+            user = request.user
+            provider = request.POST['provider']
+            item = Item.objects.get(pk=int(request.POST['item']))
+            quantity = request.POST['quantity']
+            unit = request.POST['unit']
+            
+
+            reservation = ItemReservation.objects.create(
+                user=user,
+                provider=provider,
+                item=item,
+                quantity=quantity,
+                unit=unit
+            )
+
+            if reservation.save() is None:
+                return JsonResponse({'status': 200, 'message': 'Berhasil Ditambahkan'})
+            else:
+                return JsonResponse({'status': 500, 'message': 'Terjadi Kesalahan'})
+        except Exception as e:
+            return JsonResponse({'status': 500, 'message': 'Terjadi Kesalahan'})
+
+        return render(request, 'app_user/reservation-create.html')

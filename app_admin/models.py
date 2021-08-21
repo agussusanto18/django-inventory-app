@@ -28,10 +28,11 @@ class Reservation(models.Model):
     
 
 class ItemReservation(models.Model):
-    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, null=True, blank=True)
     provider = models.CharField(max_length=80, blank=True)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=0, blank=True)
     unit = models.CharField(max_length=50, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
