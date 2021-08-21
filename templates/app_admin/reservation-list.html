@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block title %} Reservation {% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'theme/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
 
 {% block heading_icon %}
 <i class="ik ik-layers bg-blue"></i>
@@ -15,22 +21,20 @@
 <li class="breadcrumb-item active" aria-current="page">Reservasi</li>
 {% endblock breadcrumb %}
 
+
 {% block content %}
 
 <div class="card table-card">
     <div class="card-header">
         <h3>List Reservasi</h3>
         <div class="card-header-right">
-            <ul class="list-unstyled card-option">
-                <li><i class="ik ik-chevron-left action-toggle"></i></li>
-                <li><i class="ik ik-minus minimize-card"></i></li>
-                <li><i class="ik ik-x close-card"></i></li>
-            </ul>
+            
         </div>
     </div>
     <div class="card-block">
+        <div class="container">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table table-hover mb-0" id="reservation-table">
                 <thead>
                     <tr>
                         <th>Nik</th>
@@ -69,7 +73,26 @@
                 </tbody>
             </table>
         </div>
+        </div>
     </div>
 </div>
 
 {% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'theme/plugins/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'theme/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $("#reservation-table").DataTable({
+            responsive: true,
+            select: true,
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': ['nosort']
+            }]
+        });
+    })
+</script>
+{% endblock scripts %}

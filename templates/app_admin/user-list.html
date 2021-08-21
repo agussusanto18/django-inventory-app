@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block title %} Users {% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'theme/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
 
 {% block heading_icon %}
 <i class="ik ik-user bg-blue"></i>
@@ -22,21 +28,19 @@
     <div class="card-header">
         <h3>Users</h3>
         <div class="card-header-right">
-            <ul class="list-unstyled card-option">
-                <li><i class="ik ik-chevron-left action-toggle"></i></li>
-                <li><i class="ik ik-minus minimize-card"></i></li>
-                <li><i class="ik ik-x close-card"></i></li>
-            </ul>
+            
         </div>
     </div>
     <div class="card-block">
+        <div class="container">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table table-hover mb-0" id="user-table">
                 <thead>
                     <tr>
                         <th>Nama</th>
                         <th>Email</th>
                         <th>No Telp</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,12 +49,34 @@
                         <td>{{user.user.first_name}} {{user.user.last_name}}</td>
                         <td>{{user.user.email}}</td>
                         <td>{{user.phone}}</td>
+                        <td>
+                            <a href="{% url 'user-detail' user.user.pk %}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+        </div>
     </div>
 </div>
 
 {% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'theme/plugins/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'theme/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $("#user-table").DataTable({
+            responsive: true,
+            select: true,
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': ['nosort']
+            }]
+        });
+    })
+</script>
+{% endblock scripts %}

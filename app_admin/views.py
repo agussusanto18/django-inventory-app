@@ -12,7 +12,14 @@ from app_admin.forms import ItemForm
 @login_required(login_url='/signin/')
 def home(request):
     if is_admin(request.user):
-        return render(request, 'app_admin/index.html')
+        context = {
+            'total_item': len(Item.objects.all()),
+            'total_user': len(User.objects.filter(groups__name=UserRole.USER.value)),
+            'total_panding_reservation': len(Reservation.objects.filter(status=ReservationStatus.PANDING)),
+            'total_approved_reservation': len(Reservation.objects.filter(status=ReservationStatus.APPROVED))
+        }
+
+        return render(request, 'app_admin/index.html', context)
     else:
         return redirect('user-home')
 
@@ -115,6 +122,21 @@ def user_list(request):
     else:
         return redirect('user-home')
 
+@login_required(login_url='/signin/')
+def user_detail(request, pk):
+    if is_admin(request.user):
+        userdetail = UserDetail.objects.get(user__pk=pk)
+        reservations = Reservation.objects.filter(user=userdetail.user)
+
+        context = {
+            'userdetail': userdetail,
+            'reservations': reservations,
+            'is_admin': is_admin(userdetail.user)
+        }
+
+        return render(request, 'app_admin/user-detail.html', context)
+    else:
+        return redirect('user-home')
 
 @login_required(login_url='/signin/')
 def reservation_list(request):

@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Detail User - {{userdetail.user.first_name}} {{userdetail.user.last_name}} {% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'theme/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block heading_icon %}
+<i class="ik ik-layers bg-blue"></i>
+{% endblock heading_icon %}
+
+{% block heading %}
+<h5>Detail User</h5>
+<span>Detail user barang</span>
+{% endblock heading %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'user-list' %}">Users</a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">{{userdetail.user.first_name}} {{userdetail.user.last_name}}</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-5 col-sm-12">
+        <div class="card table-card">
+            <div class="card-header">
+                <h3>Info User</h3>
+            </div>
+            <div class="card-block">
+                <table class="table">
+                    <tr>
+                        <th>Nama</th>
+                        {% if userdetail.user.first_name %}
+                        <th>{{userdetail.user.first_name}} {{userdetail.user.last_name}}</th>
+                        {% else %}
+                        <td>-</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <th>{{userdetail.user.email}}</th>
+                    </tr>
+                    <tr>
+                        <th>No Telp</th>
+                        <th>{{userdetail.phone}}</th>
+                    </tr>
+                    <tr>
+                        <th>Jenis Kelamin</th>
+                        <th>{{userdetail.gender}}</th>
+                    </tr>
+                    <tr>
+                        <th>Alamat</th>
+                        {% if userdetail.address %}
+                        <th>{{userdetail.address}}</th>
+                        {% else %}
+                        <td>-</td>
+                        {% endif %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-7 col-sm-12">
+        
+        {% if not is_admin %}
+        <div class="card table-card">
+            <div class="card-header">
+                <h3>List Reservasi <b>{{userdetail.user.first_name}} {{userdetail.user.last_name}}</b></h3>
+            </div>
+            <div class="card-block">
+                <div class="container">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="reservation-table">
+                        <thead>
+                            <tr>
+                                <th>Nik</th>
+                                <th>Nama</th>
+                                <th>Tanggal Pengambilan</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in reservations %}
+                            <tr>
+                                <td>{{reservation.nik}}</td>
+                                <td>{{reservation.name}}</td>
+                                <td>{{reservation.schedule}}</td>
+                                <td>
+                                    <a href="{% url 'reservation-detail' reservation.pk %}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'theme/plugins/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'theme/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $("#reservation-table").DataTable({
+            responsive: true,
+            select: true,
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': ['nosort']
+            }]
+        });
+    })
+</script>
+{% endblock scripts %}

@@ -45,6 +45,10 @@
                         <th>{{reservation.created}}</th>
                     </tr>
                     <tr>
+                        <th>User</th>
+                        <th><a href="{% url 'user-detail' reservation.user.pk %}" class="text-primary"> {{reservation.user.first_name}} {{reservation.user.last_name}} </a></th>
+                    </tr>
+                    <tr>
                         <th>Status</th>
                         <th>
                             {% if reservation.status == 1 %}
@@ -63,8 +67,20 @@
                 </table>
             
                 <center>
+                    {% if reservation.status == 1 %}
+                    <button class="btn btn-success" disabled style="cursor: not-allowed;">Terima</button>
+                    <a href="{% url 'reservation-reject' reservation.pk %}" class="btn btn-danger">Tolak</a>
+                    {% endif %}
+
+                    {% if reservation.status == 2 %}
                     <a href="{% url 'reservation-approve' reservation.pk %}" class="btn btn-success">Terima</a>
                     <a href="{% url 'reservation-reject' reservation.pk %}" class="btn btn-danger">Tolak</a>
+                    {% endif %}
+
+                    {% if reservation.status == 3 %}
+                    <a href="{% url 'reservation-approve' reservation.pk %}" class="btn btn-success">Terima</a>
+                    <button class="btn btn-danger" disabled  style="cursor: not-allowed;">Tolak</button>
+                    {% endif %}
                 </center>
             </div>
         </div>
@@ -72,7 +88,7 @@
     <div class="col-7">
         <div class="card table-card">
             <div class="card-header">
-                <h3>List Item</h3>
+                <h3>List Barang</h3>
             </div>
             <div class="card-block">
                 <div class="table-responsive">
