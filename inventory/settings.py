@@ -67,6 +67,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 "django.template.context_processors.media",
             ],
+            'libraries': {
+                'tags_user': 'templatetags.user',
+                'tags_admin': 'templatetags.admin',
+            }
         },
     },
 ]

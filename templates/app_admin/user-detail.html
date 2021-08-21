@@ -28,43 +28,51 @@
 
 <div class="row">
     <div class="col-lg-5 col-sm-12">
-        <div class="card table-card">
-            <div class="card-header">
-                <h3>Info User</h3>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    {% if userdetail.photo %}
+                    <img src="{{MEDIA_URL}}{{userdetail.photo}}" class="rounded-circle" width="150" height="150" />
+                    {% else %}
+                    <img src="{% static 'images/no-profile.jpeg' %}" class="rounded-circle" width="150" height="150" />
+                    {% endif %}
+
+                    <h4 class="card-title mt-10">{{userdetail.user.first_name}} {{userdetail.user.last_name}}</h4>
+                    <p class="card-subtitle">
+                        {% if is_admin %}
+                        Admin
+                        {% else %}
+                        User
+                        {% endif %}
+                    </p>
+                </div>
             </div>
-            <div class="card-block">
-                <table class="table">
-                    <tr>
-                        <th>Nama</th>
-                        {% if userdetail.user.first_name %}
-                        <th>{{userdetail.user.first_name}} {{userdetail.user.last_name}}</th>
-                        {% else %}
-                        <td>-</td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <th>{{userdetail.user.email}}</th>
-                    </tr>
-                    <tr>
-                        <th>No Telp</th>
-                        <th>{{userdetail.phone}}</th>
-                    </tr>
-                    <tr>
-                        <th>Jenis Kelamin</th>
-                        <th>{{userdetail.gender}}</th>
-                    </tr>
-                    <tr>
-                        <th>Alamat</th>
-                        {% if userdetail.address %}
-                        <th>{{userdetail.address}}</th>
-                        {% else %}
-                        <td>-</td>
-                        {% endif %}
-                    </tr>
-                </table>
+            <hr class="mb-0"> 
+            <div class="card-body"> 
+                <small class="text-muted d-block">Email address </small>
+                <h6>{{userdetail.user.email}}</h6> 
+                <small class="text-muted d-block pt-10">Phone</small>
+                <h6>{{userdetail.phone}}</h6> 
+                <small class="text-muted d-block pt-10">Address</small>
+                <h6>
+                    {% if userdetail.address %}
+                    {{userdetail.address}}
+                    {% else %}
+                    -
+                    {% endif %}
+                </h6>
+                <small class="text-muted d-block pt-10">Gender</small>
+                <h6>
+                    {% if userdetail.gender == 'L' %}
+                    Laki-Laki
+                    {% else %}
+                    Perempuan
+                    {% endif %}
+                </h6>
             </div>
         </div>
+
     </div>
     <div class="col-lg-7 col-sm-12">
         
