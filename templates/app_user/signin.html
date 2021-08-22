@@ -3,8 +3,8 @@
 {% block title %} Signin {% endblock title %}
 
 {% block content %}
-<h3>Sign In to ThemeKit</h3>
-<p>Happy to see you again!</p>
+<h3>Login ke Dashboard</h3>
+<p>Akses fitur dashboard dan berbagai kemudahan!</p>
 <form action="" method="POST">
     {% csrf_token %}
     
@@ -17,10 +17,10 @@
         <i class="ik ik-lock"></i>
     </div>
     <div class="sign-btn text-center">
-        <button class="btn btn-theme" type="submit">Sign In</button>
+        <button class="btn btn-theme" type="submit">Login</button>
     </div>
 </form>
 <div class="register">
-    <p>Don't have an account? <a href="{% url 'signup' %}">Create an account</a></p>
+    <p>Belum punya akun? <a href="{% url 'signup' %}" class="text-primary">Buat akun</a></p>
 </div>
 {% endblock content %}

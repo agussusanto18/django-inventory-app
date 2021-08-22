@@ -54,7 +54,13 @@
                             <div class="form-group">
                                 <select name="item" id="item" class="form-control">
                                     {% for item in items %}
-                                    <option value="{{item.pk}}">{{item.name}}</option>
+                                    <option value="{{item.pk}}" {% if item.stock <= 0 %} disabled {% endif %}>
+                                        {% if item.stock > 0 %}
+                                        {{item.name}} ({{item.stock}})
+                                        {% else %}
+                                        {{item.name}} (kosong)
+                                        {% endif %}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </div>
