@@ -50,9 +50,9 @@ Untuk mengakses aplikasi, buka URL http://localhost:8000/
 ## Akses Login ##
 
 * Akun Admin
-username: admin
-password: admin123
+    *username: admin
+    *password: admin123
 
 * Akun User
-username: aldo
-password: aldo123
+    *username: aldo
+    *password: aldo123
