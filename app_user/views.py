@@ -4,7 +4,8 @@ from django.contrib.auth.models import User, Group
 from constants.enums import UserRole
 from django.contrib.auth.decorators import login_required
 from utils.helpers import is_admin
-from app_user.forms import SignUpForm
+from app_user.forms import SignUpForm, UserForm, UserDetailForm
+from app_user.models import UserDetail
 from app_admin.models import Reservation, ItemReservation, Item
 from django.http import JsonResponse
 
@@ -16,6 +17,38 @@ def home(request):
     else:
         return render(request, 'app_user/index.html')
 
+
+@login_required(login_url='/signin/')
+def user_setting(request):
+    user_detail = UserDetail.objects.get(user=request.user)
+    user_form = UserForm(request.POST or None, instance=user_detail.user)
+    user_detail_form = UserDetailForm(request.POST or None, request.FILES or None, instance=user_detail)
+
+    if request.method == 'POST':
+        if user_form.is_valid() and user_detail_form.is_valid():
+            result_user = user_form.save()
+            result_user_detail = user_detail_form.save()
+
+            if result_user and result_user_detail:
+                return redirect('user-setting')
+
+    return render(request, 'app_user/setting.html', {
+        'user_form': user_form,
+        'user_detail_form': user_detail_form
+    })
+    
+@login_required(login_url='/signin/')
+def user_detail(request):
+    if is_admin(request.user):
+        return redirect('admin-home')
+    else:
+        userdetail = UserDetail.objects.get(user=request.user)
+
+        context = {
+            'userdetail': userdetail
+        }
+
+        return render(request, 'app_user/user-detail.html', context)
 
 def signin(request):
     if not request.user.is_authenticated:

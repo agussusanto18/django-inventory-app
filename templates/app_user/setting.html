@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Setting {% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'theme/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block heading_icon %}
+<i class="ik ik-settings bg-blue"></i>
+{% endblock heading_icon %}
+
+{% block heading %}
+<h5>Pengaturan</h5>
+<span>Pengaturan Akun</span>
+{% endblock heading %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active" aria-current="page">Setting</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12 col-md-6">    
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{user_form.username}}
+                {{user_form.errors.username}}
+            </div>
+            <div class="form-group">
+                {{user_form.email}}
+                {{user_form.errors.email}}
+            </div>
+            <div class="form-group">
+                {{user_form.first_name}}
+                {{user_form.errors.first_name}}
+            </div>
+            <div class="form-group">
+                {{user_form.last_name}}
+                {{user_form.errors.last_name}}
+            </div>
+            <div class="form-group">
+                {{user_detail_form.address}}
+                {{user_detail_form.errors.address}}
+            </div>
+            <div class="form-group">
+                {{user_detail_form.phone}}
+                {{user_detail_form.errors.phone}}
+            </div>
+            <div class="form-group">
+                {{user_detail_form.gender}}
+                {{user_detail_form.errors.gender}}
+            </div>
+            <div class="form-group">
+                {% if user_detail_form.photo.value %}
+                <img src="{{MEDIA_URL}}{{user_detail_form.photo.value}}" class="rounded-circle" width="150" height="150" />
+                {% else %}
+                <img src="{% static 'images/no-profile.jpeg' %}" class="rounded-circle" width="150" height="150" />
+                {% endif %}
+                <br><br>
+
+                {{user_detail_form.photo}}
+                {{user_detail_form.errors.photo}}
+            </div>
+            <button type="submit" class="btn btn-success">Simpan</button>
+        </form>
+    </div>
+</div>
+{% endblock content%}

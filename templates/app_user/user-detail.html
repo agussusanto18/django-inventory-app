@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} Detail User - {{userdetail.user.first_name}} {{userdetail.user.last_name}} {% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'theme/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block heading_icon %}
+<i class="ik ik-user bg-blue"></i>
+{% endblock heading_icon %}
+
+{% block heading %}
+<h5>Detail User</h5>
+<span>Detail user</span>
+{% endblock heading %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'user-list' %}">Users</a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">{{userdetail.user.first_name}} {{userdetail.user.last_name}}</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-5 col-sm-12">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    {% if userdetail.photo %}
+                    <img src="{{MEDIA_URL}}{{userdetail.photo}}" class="rounded-circle" width="150" height="150" />
+                    {% else %}
+                    <img src="{% static 'images/no-profile.jpeg' %}" class="rounded-circle" width="150" height="150" />
+                    {% endif %}
+
+                    <h4 class="card-title mt-10">{{userdetail.user.first_name}} {{userdetail.user.last_name}}</h4>
+                    <p class="card-subtitle">
+                        User
+                    </p>
+                </div>
+            </div>
+            <hr class="mb-0"> 
+            <div class="card-body"> 
+                <small class="text-muted d-block">Email address </small>
+                <h6>{{userdetail.user.email}}</h6> 
+                <small class="text-muted d-block pt-10">Phone</small>
+                <h6>{{userdetail.phone}}</h6> 
+                <small class="text-muted d-block pt-10">Address</small>
+                <h6>
+                    {% if userdetail.address %}
+                    {{userdetail.address}}
+                    {% else %}
+                    -
+                    {% endif %}
+                </h6>
+                <small class="text-muted d-block pt-10">Gender</small>
+                <h6>
+                    {% if userdetail.gender == 'L' %}
+                    Laki-Laki
+                    {% else %}
+                    Perempuan
+                    {% endif %}
+                </h6>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-7 col-sm-12">
+        
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'theme/plugins/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'theme/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $("#reservation-table").DataTable({
+            responsive: true,
+            select: true,
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': ['nosort']
+            }]
+        });
+    })
+</script>
+{% endblock scripts %}

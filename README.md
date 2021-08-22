@@ -28,7 +28,7 @@ Django 2 membutuhkan Python 3, jika belum menginstall Python3 install terlebih d
 Sebelum menjalankan aplikasi, kita perlu membuat tabel pada Database yang dibutuhkan:
 
 ```
-./manage.py migrate
+.\manage.py migrate
 ```
 atau
 ```
@@ -38,7 +38,7 @@ python3 manage.py migrate
 Sekarang kita dapat menjalankan server web development:
 
 ```
-./manage.py runserver
+.\manage.py runserver
 ```
 atau
 ```
@@ -46,3 +46,13 @@ python manage.py runserver
 ```
 
 Untuk mengakses aplikasi, buka URL http://localhost:8000/
+
+## Akses Login ##
+
+* Akun Admin
+username: admin
+password: admin123
+
+* Akun User
+username: aldo
+password: aldo123

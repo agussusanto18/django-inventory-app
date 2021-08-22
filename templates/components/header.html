@@ -59,8 +59,12 @@
                         {% endif %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        {% if request.user|is_admin %}
                         <a class="dropdown-item" href="{% url 'user-detail' user.pk %}"><i class="ik ik-user dropdown-icon"></i> Profile</a>
-                        <a class="dropdown-item" href="#"><i class="ik ik-settings dropdown-icon"></i> Settings</a>
+                        {% else %}
+                        <a class="dropdown-item" href="{% url 'user-profile' %}"><i class="ik ik-user dropdown-icon"></i> Profile</a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{% url 'user-setting' %}"><i class="ik ik-settings dropdown-icon"></i> Settings</a>
                         <a class="dropdown-item" href="{% url 'signout' %}"><i class="ik ik-power dropdown-icon"></i> Logout</a>
                     </div>
                 </div>
