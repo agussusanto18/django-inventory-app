@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 Django 2 membutuhkan Python 3, jika belum menginstall Python3 install terlebih dahulu.
 
-# Menjalankan Aplikasi
+## Menjalankan Aplikasi ##
 Sebelum menjalankan aplikasi, kita perlu membuat tabel pada Database yang dibutuhkan:
 
 ```
