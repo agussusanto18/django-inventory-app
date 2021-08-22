@@ -1,4 +1,4 @@
-### Aplikasi Inventory Barang ###
+# Aplikasi Inventory Barang #
 
 * Fitur Aplikasi
     * ADMIN
@@ -15,7 +15,7 @@
     * Logout
     * Register
 
-# Menginstall Paket Yang Diperlukan
+## Menginstall Paket Yang Diperlukan ##
 Aplikasi ini hanya membutuhkan satu paket Python "Django", itu dibangun dan diuji dengan versi Django 2.x. Untuk menginstalnya gunakan perintah berikut:
 
 ```
