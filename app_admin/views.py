@@ -7,6 +7,7 @@ from app_user.models import UserDetail
 from constants.enums import UserRole
 from constants.choices import ReservationStatus
 from app_admin.forms import ItemForm
+from datetime import datetime, timedelta
 
 
 @login_required(login_url='/signin/')
@@ -144,5 +145,35 @@ def reservation_list(request):
         reservations = Reservation.objects.all().order_by('-id')
         context = {"reservations": reservations}
         return render(request, 'app_admin/reservation-list.html', context)
+    else:
+        return redirect('user-home')
+
+
+@login_required(login_url='/signin/')
+def print_pdf(request):
+    if is_admin(request.user):
+        days = request.GET.get('days', None)
+        allData = request.GET.get('all', None)
+        reservations = []
+
+        if allData:
+            queryset = Reservation.objects.all()
+        else:
+            if days:
+                startdate = datetime.today()
+                enddate = startdate - timedelta(days=int(days))
+                queryset = Reservation.objects.filter(created__range=[startdate, enddate])
+            else:
+                queryset = Reservation.objects.all()
+
+        for reservation in queryset:
+            item_reservations = ItemReservation.objects.filter(reservation=reservation)
+            reservations.append({
+                'reservation': reservation,
+                'items': item_reservations
+            })
+        return render(request, 'app_admin/print-pdf.html', {
+            'reservations': reservations
+        })
     else:
         return redirect('user-home')

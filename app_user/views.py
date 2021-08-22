@@ -112,6 +112,16 @@ def reservation_create(request):
         return render(request, 'app_user/reservation-create.html', context)
 
 @login_required(login_url='/signin/')
+def reservation_detail(request, pk):
+    if is_admin(request.user):
+        return redirect('admin-home')
+    else:
+        reservation = Reservation.objects.get(pk=pk)
+        reservation_items = ItemReservation.objects.filter(reservation=reservation)
+        context = {'reservation': reservation, 'reservation_items': reservation_items}
+        return render(request, 'app_user/reservation-detail.html', context)
+
+@login_required(login_url='/signin/')
 def item_reservation_create(request):
     if is_admin(request.user):
         return redirect('admin-home')

@@ -28,7 +28,7 @@
     <div class="card-header">
         <h3>List Reservasi</h3>
         <div class="card-header-right">
-            
+            <button class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">Export Pdf</a>
         </div>
     </div>
     <div class="card-block">
@@ -53,17 +53,23 @@
                         <td>{{reservation.schedule}}</td>
                         <td>{{reservation.created}}</td>
                         <td>
-                        {% if reservation.status == 1 %}
-                        DITERIMA
-                        {% endif %}
+                            {% if reservation.status == 1 %}
+                            <span class="text-success">
+                                DITERIMA
+                            </span>
+                            {% endif %}
 
-                        {% if reservation.status == 2 %}
-                        PANDING
-                        {% endif %}
+                            {% if reservation.status == 2 %}
+                            <span class="text-warning">
+                                PANDING
+                            </span>
+                            {% endif %}
 
-                        {% if reservation.status == 3 %}
-                        DITOLAK
-                        {% endif %}
+                            {% if reservation.status == 3 %}
+                            <span class="text-danger">
+                                DITOLAK
+                            </span>
+                            {% endif %}
                         </td>
                         <td>
                             <a href="{% url 'reservation-detail' reservation.pk %}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
@@ -77,6 +83,32 @@
     </div>
 </div>
 
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="{% url 'print-pdf' %}" method="get">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterLabel">Export Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">Range Data :</label> <br>
+                        <input type="number" name="days" id="days" placeholder="Hari" class="form-control" style="width: 25%;display:inline;"> &nbsp;&nbsp; Hari Terakhir
+                    </div>
+                    <div class="form-group">
+                        <label for="">Semua Data</label> <br>
+                        <input type="checkbox" name="all" id="all">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Export</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}
 
 {% block scripts %}

@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="{% static 'theme/plugins/bootstrap/dist/css/bootstrap.min.css' %}">
+    <style>
+        #print-table .data-reservation, #print-table thead tr th{
+            border: 1px solid grey;
+        }
+    </style>
+</head>
+<body>
+    
+    {% if reservations %}
+    <table class="table" id="print-table">
+        <thead>
+            <tr>
+                <th>Nik</th>
+                <th>Nama</th>
+                <th>Tanggal Pengambilan</th>
+                <th>Daftar Barang</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td class="data-reservation">{{reservation.reservation.nik}}</td>
+                <td class="data-reservation">{{reservation.reservation.name}}</td>
+                <td class="data-reservation">{{reservation.reservation.schedule}}</td>
+                <td class="data-reservation">
+                    {% if reservation.items|length == 0 %}
+                    Tidak ada barang
+                    {% else %}
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>Material</th>
+                            <th>Barang</th>
+                            <th>Kuantitas</th>
+                            <th>Unit</th>
+                        </tr>
+                        {% for item in reservation.items %}
+                        <tr>
+                            <td>{{item.provider}}</td>
+                            <td>{{item.item.name}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.unit}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <center>
+        <br><br><br><br>    
+        <h5>Tidak ada data</h5>
+    </center>
+    {% endif %}
+
+    <script>
+        window.print();
+    </script>
+
+</body>
+</html>

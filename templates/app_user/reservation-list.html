@@ -53,20 +53,26 @@
                         <td>{{reservation.schedule}}</td>
                         <td>{{reservation.created}}</td>
                         <td>
-                        {% if reservation.status == 1 %}
-                        DITERIMA
-                        {% endif %}
+                            {% if reservation.status == 1 %}
+                            <span class="text-success">
+                                DITERIMA
+                            </span>
+                            {% endif %}
 
-                        {% if reservation.status == 2 %}
-                        PANDING
-                        {% endif %}
+                            {% if reservation.status == 2 %}
+                            <span class="text-warning">
+                                PANDING
+                            </span>
+                            {% endif %}
 
-                        {% if reservation.status == 3 %}
-                        DITOLAK
-                        {% endif %}
+                            {% if reservation.status == 3 %}
+                            <span class="text-danger">
+                                DITOLAK
+                            </span>
+                            {% endif %}
                         </td>
                         <td>
-                            <a href="{% url 'reservation-detail' reservation.pk %}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
+                            <a href="{% url 'user-reservation-detail' reservation.pk %}"><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
