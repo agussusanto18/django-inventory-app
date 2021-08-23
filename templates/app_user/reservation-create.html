@@ -47,14 +47,14 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
-                                <input type="text" name="provider" id="provider" placeholder="Material" class="form-control">                    
+                                <input type="text" name="provider" id="provider" placeholder="Material" class="form-control" readonly>                    
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                                 <select name="item" id="item" class="form-control">
                                     {% for item in items %}
-                                    <option value="{{item.pk}}" {% if item.stock <= 0 %} disabled {% endif %}>
+                                    <option value="{{item.pk}}" data-provider="{{item.provider}}" data-unit="{{item.unit}}" {% if item.stock <= 0 %} disabled {% endif %}>
                                         {% if item.stock > 0 %}
                                         {{item.name}} ({{item.stock}})
                                         {% else %}
@@ -72,13 +72,15 @@
                         </div>
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
-                                <input type="text" name="unit" id="unit" placeholder="Unit" class="form-control">
+                                <input type="text" name="unit" id="unit" placeholder="Unit" class="form-control" readonly>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-2">
-                    <button type="submit" class="btn btn-info w-100">Tambahkan</button>
+                    <button type="submit" class="btn btn-info w-100" id="btn-submit-item">
+                        Tambahkan
+                    </button>
                 </div>
             </div>
         </form>
@@ -108,8 +110,18 @@
     $(document).ready(function () {
         getItemReservation();
 
+        $('#form-item select[name=item]').on('change', function(e){
+            var provider = $(this).find(':selected').data('provider')
+            var unit = $(this).find(':selected').data('unit')
+            
+            $('#form-item input[name=unit]').val(unit)
+            $('#form-item input[name=provider]').val(provider);
+        })
+
         $('#form-item').submit(function (e) {
             e.preventDefault();
+            $('#btn-submit-item').attr('disabled', 'disabled');
+
             var inputProvider = $('#form-item input[name=provider]');
             var inputItem = $('#form-item select[name=item]')
             var inputQuantity = $('#form-item input[name=quantity]')
@@ -136,6 +148,8 @@
                success: function(response) {
                     getItemReservation();
                     clearForm();
+
+                    $('#btn-submit-item').removeAttr('disabled');
                }
             });
             
@@ -157,7 +171,6 @@
         $('#btn-submit-reservation').click(function(e){
             $('#form-reservation').submit();
         });
-
 
         function getItemReservation(){
             $.ajax({

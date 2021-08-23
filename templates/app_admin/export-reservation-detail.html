@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="{% static 'theme/plugins/bootstrap/dist/css/bootstrap.min.css' %}">
+    <style>
+        #print-table .data-reservation, #print-table thead tr th{
+            border: 1px solid grey;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <div class="row">
+            <div class="col-4">
+                <img src="{% static 'images/logo.jpeg' %}" alt="" width="130" height="130" style="float: right;">
+            </div>
+            <div class="col-8">
+                <div style="float: left;">
+                    <h2 style="color: #ce5c40; font-family:'Times New Roman', Times, serif;"><b>PT. ANDINA MANABA GRUP</b></h2>
+                    <h4>GENERAL COTRACTOR AND SUPPLIER</h4>
+                    <h6>Alamat: Dewi Sartika II btn potobo blok b3 no 15 palu <br> Telepon/HP: 082189345567</h6>
+                </div>
+            </div>
+        </div>
+    </center>
+    <div style="clear: both;"></div>
+    <br>
+    <div class="w-100" style="height: 2px; margin-bottom: 2px; background-color: black;"></div>
+    <div class="w-100" style="height: 3px; background-color: black;"></div>
+    <br><br>
+    <h4 style="text-align: center;">Tanda Terima Reservasi</h4>
+    <br><br>
+    <div class="row">
+        <div class="col-6">
+            <table class="table table-borderless">
+                <tr>
+                    <th>Nik</th>
+                    <th>:</th>
+                    <th>{{reservation.nik}}</th>
+                </tr>
+                <tr>
+                    <th>Nama</th>
+                    <th>:</th>
+                    <th>{{reservation.name}}</th>
+                </tr>
+                <tr>
+                    <th>Tanggal Pengambilan</th>
+                    <th>:</th>
+                    <th>{{reservation.schedule}}</th>
+                </tr>
+                <tr>
+                    <th>Dibuat Pada</th>
+                    <th>:</th>
+                    <th>{{reservation.created}}</th>
+                </tr>
+                <tr>
+                    <th>Leader</th>
+                    <th>:</th>
+                    <th>{{reservation.user.first_name}} {{reservation.user.last_name}}</th>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <th>:</th>
+                    <th>
+                        {% if reservation.status == 1 %}
+                        <span class="text-success">
+                            DITERIMA
+                        </span>
+                        {% endif %}
+        
+                        {% if reservation.status == 2 %}
+                        <span class="text-warning">
+                            PANDING
+                        </span>
+                        {% endif %}
+        
+                        {% if reservation.status == 3 %}
+                        <span class="text-danger">
+                            DITOLAK
+                        </span>
+                        {% endif %}
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div class="col-12">
+            <br><br>
+            <h5 class="bg-secondary p-1 text-white">List Barang</h5>
+            {% if reservation_items|length == 0 %}
+                    Tidak ada barang
+                    {% else %}
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Material</th>
+                            <th>Barang</th>
+                            <th>Kuantitas</th>
+                            <th>Unit</th>
+                        </tr>
+                        {% for item in reservation_items %}
+                        <tr>
+                            <td>{{item.provider}}</td>
+                            <td>{{item.item.name}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.unit}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% endif %}
+        </div>
+    </div>
+    
+    
+ 
+
+    <script>
+        window.print()
+    </script>
+</body>
+</html>

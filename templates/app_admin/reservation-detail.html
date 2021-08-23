@@ -87,6 +87,8 @@
                     <a href="{% url 'reservation-approve' reservation.pk %}" class="btn btn-success">Terima</a>
                     <button class="btn btn-danger" disabled  style="cursor: not-allowed;">Tolak</button>
                     {% endif %}
+
+                    <a href="{% url 'reservation-detail-print' reservation.pk %}" class="btn btn-info">Cetak</a>
                 </center>
             </div>
         </div>

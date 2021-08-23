@@ -13,13 +13,13 @@
 {% endblock heading_icon %}
 
 {% block heading %}
-<h5>Detail User</h5>
-<span>Detail user barang</span>
+<h5>Detail Leader</h5>
+<span>Detail leader barang</span>
 {% endblock heading %}
 
 {% block breadcrumb %}
 <li class="breadcrumb-item">
-    <a href="{% url 'user-list' %}">Users</a>
+    <a href="{% url 'user-list' %}">Leaders</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">{{userdetail.user.first_name}} {{userdetail.user.last_name}}</li>
 {% endblock breadcrumb %}
@@ -43,7 +43,7 @@
                         {% if is_admin %}
                         Admin
                         {% else %}
-                        User
+                        Leader
                         {% endif %}
                     </p>
                 </div>

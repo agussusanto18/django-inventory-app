@@ -28,7 +28,7 @@
     <div class="card-header">
         <h3>List Reservasi</h3>
         <div class="card-header-right">
-            <button class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">Export Pdf</a>
+            <button class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">Export</a>
         </div>
     </div>
     <div class="card-block">
@@ -99,6 +99,13 @@
                     <div class="form-group">
                         <label for="">Semua Data</label> <br>
                         <input type="checkbox" name="all" id="all">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Format</label> <br>
+                        <select name="format" id="format" class="form-control">
+                            <option value="1">PDF</option>
+                            <option value="2">Excel</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

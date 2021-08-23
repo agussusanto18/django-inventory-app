@@ -7,6 +7,8 @@ class Item(models.Model):
     name = models.CharField(max_length=80)
     price = models.IntegerField(default=0)
     stock = models.IntegerField(default=0)
+    unit = models.CharField(max_length=80, blank=True)
+    provider = models.CharField(max_length=80, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

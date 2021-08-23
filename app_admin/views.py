@@ -172,8 +172,19 @@ def print_pdf(request):
                 'reservation': reservation,
                 'items': item_reservations
             })
-        return render(request, 'app_admin/print-pdf.html', {
+        return render(request, 'app_admin/export-reservation.html', {
             'reservations': reservations
         })
+    else:
+        return redirect('user-home')
+
+
+@login_required(login_url='/signin/')
+def reservation_detail_print(request, pk):
+    if is_admin(request.user):
+        reservation = Reservation.objects.get(pk=pk)
+        reservation_items = ItemReservation.objects.filter(reservation=reservation)
+        context = {'reservation': reservation, 'reservation_items': reservation_items}
+        return render(request, 'app_admin/export-reservation-detail.html', context)
     else:
         return redirect('user-home')

@@ -2,7 +2,8 @@ from django.urls import path
 from app_admin.views import (
     home, item_list, item_create, item_update, 
     item_delete, reservation_detail, user_list, reservation_list,
-    reservation_approve, reservation_reject, user_detail, print_pdf
+    reservation_approve, reservation_reject, user_detail, print_pdf,
+    reservation_detail_print
 )
 
 urlpatterns = [
@@ -17,5 +18,6 @@ urlpatterns = [
     path('reservation/detail/<int:pk>/', reservation_detail, name='reservation-detail'),
     path('reservation/approve/<int:pk>/', reservation_approve, name='reservation-approve'),
     path('reservation/reject/<int:pk>/', reservation_reject, name='reservation-reject'),
-    path('print/', print_pdf, name='print-pdf')
+    path('print/', print_pdf, name='print-pdf'),
+    path('reservation/print/<int:pk>/', reservation_detail_print, name='reservation-detail-print')
 ]
