@@ -8,7 +8,8 @@
         * List User
         * List Reservasi berdasarkan User
         * List Teknisi
-        * Export data reservasi ke PDF
+        * Export data reservasi ke PDF atau Excel
+        * Cetak Struk Reservasi
     * USER
         * List Reservasi
         * Tambah Reservasi
