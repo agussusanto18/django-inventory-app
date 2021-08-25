@@ -1,5 +1,5 @@
 from django import forms
-from app_admin.models import Item, ItemReservation, Reservation
+from app_admin.models import Item, ItemReservation, Reservation, Technician
 
 
 class ItemForm(forms.ModelForm):
@@ -12,3 +12,11 @@ class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ['name', 'price', 'stock', 'provider', 'unit']
+
+class TechnicianForm(forms.ModelForm):
+    name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nama'}))
+    nik = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nik'}))
+
+    class Meta:
+        model = Technician
+        fields = ['name', 'nik']

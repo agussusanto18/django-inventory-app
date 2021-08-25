@@ -3,7 +3,8 @@ from app_admin.views import (
     home, item_list, item_create, item_update, 
     item_delete, reservation_detail, user_list, reservation_list,
     reservation_approve, reservation_reject, user_detail, print_pdf,
-    reservation_detail_print
+    reservation_detail_print, technician_list, technician_create, technician_update, 
+    technician_delete
 )
 
 urlpatterns = [
@@ -19,5 +20,9 @@ urlpatterns = [
     path('reservation/approve/<int:pk>/', reservation_approve, name='reservation-approve'),
     path('reservation/reject/<int:pk>/', reservation_reject, name='reservation-reject'),
     path('print/', print_pdf, name='print-pdf'),
-    path('reservation/print/<int:pk>/', reservation_detail_print, name='reservation-detail-print')
+    path('reservation/print/<int:pk>/', reservation_detail_print, name='reservation-detail-print'),
+    path('technician/list/', technician_list, name='technician-list'),
+    path('technician/create/', technician_create, name='technician-create'),
+    path('technician/update/<int:pk>/', technician_update, name='technician-update'),
+    path('technician/delete/<int:pk>/', technician_delete, name='technician-delete')
 ]

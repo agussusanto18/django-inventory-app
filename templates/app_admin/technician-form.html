@@ -8,12 +8,12 @@
 
 {% block heading %}
 <h5>{{title}}</h5>
-<span>Tambah Barang Material</span>
+<span>Tambah Teknisi</span>
 {% endblock heading %}
 
 {% block breadcrumb %}
 <li class="breadcrumb-item">
-    <a href="{% url 'item-list' %}">Barang</a>
+    <a href="{% url 'technician-list' %}">Teknisi</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
 {% endblock breadcrumb %}
@@ -28,16 +28,7 @@
                 {{form.name}}
             </div>
             <div class="form-group">
-                {{form.price}}
-            </div>
-            <div class="form-group">
-                {{form.stock}}
-            </div>
-            <div class="form-group">
-                {{form.provider}}
-            </div>
-            <div class="form-group">
-                {{form.unit}}
+                {{form.nik}}
             </div>
             <div class="sign-btn">
                 <button class="btn btn-success" type="submit">Simpan</button>

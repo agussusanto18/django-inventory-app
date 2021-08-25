@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db import transaction
 from utils.helpers import is_admin
-from app_admin.models import Item, Reservation, ItemReservation
+from app_admin.models import Item, Reservation, ItemReservation, Technician
 from app_user.models import UserDetail
 from constants.enums import UserRole
 from constants.choices import ReservationStatus
-from app_admin.forms import ItemForm
+from app_admin.forms import ItemForm, TechnicianForm
 from datetime import datetime, timedelta
 
 
@@ -46,16 +47,48 @@ def reservation_detail(request, pk):
         return redirect('user-home')
 
 @login_required(login_url='/signin/')
+@transaction.atomic
 def reservation_approve(request, pk):
+    # try:
     reservation = Reservation.objects.filter(pk=pk)
-    reservation.update(status=ReservationStatus.APPROVED)
     
+    if reservation.exists():
+        reservation.update(status=ReservationStatus.APPROVED, undo=True)
+
+        new_items =[]
+        item_reservations = ItemReservation.objects.filter(reservation=reservation[0])
+        
+        for item_reservation in item_reservations:
+            aItem = item_reservation.item
+            aItem.stock = aItem.stock - item_reservation.quantity
+            new_items.append(aItem)
+
+        Item.objects.bulk_update(new_items, ['stock']) 
+    # except Exception as e:
+    #     print(e)
+
     return redirect('reservation-detail', pk=pk)
 
 @login_required(login_url='/signin/')
 def reservation_reject(request, pk):
     reservation = Reservation.objects.filter(pk=pk)
-    reservation.update(status=ReservationStatus.REJECTED)
+    
+    if reservation.exists():
+        reservation.update(status=ReservationStatus.REJECTED)
+
+        undo = reservation[0].undo
+        
+        if undo == True:
+            new_items =[]
+            item_reservations = ItemReservation.objects.filter(reservation=reservation[0])
+            
+            for item_reservation in item_reservations:
+                aItem = item_reservation.item
+                aItem.stock = aItem.stock + item_reservation.quantity
+                new_items.append(aItem)
+
+            Item.objects.bulk_update(new_items, ['stock']) 
+
     
     return redirect('reservation-detail', pk=pk)
 
@@ -142,7 +175,7 @@ def user_detail(request, pk):
 @login_required(login_url='/signin/')
 def reservation_list(request):
     if is_admin(request.user):
-        reservations = Reservation.objects.all().order_by('-id')
+        reservations = Reservation.objects.all().order_by('-created')
         context = {"reservations": reservations}
         return render(request, 'app_admin/reservation-list.html', context)
     else:
@@ -186,5 +219,64 @@ def reservation_detail_print(request, pk):
         reservation_items = ItemReservation.objects.filter(reservation=reservation)
         context = {'reservation': reservation, 'reservation_items': reservation_items}
         return render(request, 'app_admin/export-reservation-detail.html', context)
+    else:
+        return redirect('user-home')
+
+
+@login_required(login_url='/signin/')
+def technician_list(request):
+    if is_admin(request.user):
+        technicians = Technician.objects.all().order_by('-id')
+        context = {'technicians': technicians}
+        return render(request, 'app_admin/technician-list.html', context)
+    else:
+        return redirect('user-home')
+
+@login_required(login_url='/signin/')
+def technician_create(request):
+    if is_admin(request.user):
+        form = TechnicianForm(request.POST or None)
+        
+        if request.method == 'POST':
+            if form.is_valid():
+                result = form.save()
+                
+                if result:
+                    return redirect('technician-list') 
+
+        return render(request, 'app_admin/technician-form.html', {
+            'form': form,
+            'title': 'Tambah Teknisi'
+        })
+    else:
+        return redirect('user-home')
+
+@login_required(login_url='/signin/')
+def technician_update(request, pk):
+    if is_admin(request.user):
+        instance = Technician.objects.get(pk=pk)
+        form = TechnicianForm(request.POST or None, instance=instance)
+        
+        if request.method == 'POST':
+            if form.is_valid():
+                result = form.save()
+                
+                if result:
+                    return redirect('technician-list') 
+
+        return render(request, 'app_admin/technician-form.html', {
+            'form': form,
+            'title': 'Update Teknisi'
+        })
+    else:
+        return redirect('user-home')
+
+@login_required(login_url='/signin/')
+def technician_delete(request, pk):
+    if is_admin(request.user):
+        result = Technician.objects.filter(pk=pk)
+        result.delete()
+
+        return redirect('technician-list')
     else:
         return redirect('user-home')

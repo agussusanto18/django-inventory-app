@@ -4,11 +4,11 @@
 
 <div class="app-sidebar colored">
     <div class="sidebar-header">
-        <a class="header-brand" href="index.html">
-            <div class="logo-img">
+        <a class="header-brand" href="/" data-toggle="tooltip" data-placement="bottom" title="PT. ANDINA MANABA GRUP">
+            <!-- <div class="logo-img">
                <img src="{% static 'theme/src/img/brand-white.svg' %}" class="header-brand-img" alt="lavalite"> 
-            </div>
-            <span class="text">INVENTARIS</span>
+            </div> -->
+            <span class="text" style="font-size: 18px;">{{"PT. ANDINA MANABA GRUP"|truncatechars:17}}</span>
         </a>
         <button type="button" class="nav-toggle"><i data-toggle="expanded" class="ik ik-toggle-right toggle-icon"></i></button>
         <button id="sidebarClose" class="nav-close"><i class="ik ik-x"></i></button>
@@ -35,6 +35,13 @@
                 </div>
                 <div class="nav-item">
                     <a href="{% url 'user-list' %}"><i class="ik ik-users"></i><span>Leaders</span></a>
+                </div>
+                <div class="nav-item has-sub">
+                    <a href="javascript:void(0)"><i class="ik ik-user"></i>Teknisi</a>
+                    <div class="submenu-content">
+                        <a href="{% url 'technician-list' %}" class="menu-item">List Teknisi</a>
+                        <a href="{% url 'technician-create' %}" class="menu-item">Tambah Teknisi</a>
+                    </div>
                 </div>
                 {% else %}
                 <div class="nav-item has-sub">

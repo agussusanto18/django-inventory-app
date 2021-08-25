@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %} List Teknisi {% endblock title %}
+
+{% block heading_icon %}
+<i class="ik ik-user bg-blue"></i>
+{% endblock heading_icon %}
+
+{% block heading %}
+<h5>List Teknisi</h5>
+<span>List Teknisi</span>
+{% endblock heading %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active" aria-current="page">Teknisi</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<div class="card table-card">
+    <div class="card-header">
+        <h3>List Teknisi</h3>
+        <div class="card-header-right">
+           
+        </div>
+    </div>
+    <div class="card-block">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Nik</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for technician in technicians %}
+                    <tr>
+                        <td>{{technician.name}}</td>
+                        <td>{{technician.nik}}</td>
+                        <td>
+                            <a href="{% url 'technician-update' technician.pk %}"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
+                            <a href="{% url 'technician-delete' technician.pk %}" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

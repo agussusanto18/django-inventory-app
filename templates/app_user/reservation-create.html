@@ -5,6 +5,7 @@
 
 {% block styles %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="{% static 'theme/plugins/select2/dist/css/select2.min.css' %}">
 {% endblock styles %}
 
 {% block heading_icon %}
@@ -29,12 +30,20 @@
         <form action="" method="post" id="form-reservation">
             {% csrf_token %}
             <div class="form-group">
-                <input type="text" name="nik" id="nik" class="form-control" placeholder="Nik" required>
+                <label for="nik">Nik</label>
+                <select name="nik" id="nik" class="form-control select2">
+                    <option value="" data-name="">-- Pilih Nik --</option>
+                    {% for technician in technicians %}
+                    <option value="{{technician.nik}}" data-name="{{technician.name}}">{{technician.nik}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="form-group">
-                <input type="text" name="name" id="name" class="form-control" placeholder="Nama" required>
+                <label for="name">Nama</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Nama" required readonly>
             </div>
             <div class="form-group">
+                <label for="schedule">Tanggal Pengambilan</label>
                 <input type="date" name="schedule" id="schedule" class="form-control" placeholder="Tanggal Pengambilan" required>
             </div>
         </form>
@@ -106,9 +115,13 @@
 {% endblock content %}
 
 {% block scripts %}
+<script src="{% static 'theme/plugins/select2/dist/js/select2.min.js' %}"></script>
+
 <script>
     $(document).ready(function () {
         getItemReservation();
+
+        $(".select2").select2();
 
         $('#form-item select[name=item]').on('change', function(e){
             var provider = $(this).find(':selected').data('provider')
@@ -116,6 +129,11 @@
             
             $('#form-item input[name=unit]').val(unit)
             $('#form-item input[name=provider]').val(provider);
+        })
+
+        $('#form-reservation select[name=nik]').on('change', function(e){
+            var name = $(this).find(':selected').data('name');
+            $('#form-reservation input[name=name]').val(name);
         })
 
         $('#form-item').submit(function (e) {

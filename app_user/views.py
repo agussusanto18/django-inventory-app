@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from utils.helpers import is_admin
 from app_user.forms import SignUpForm, UserForm, UserDetailForm
 from app_user.models import UserDetail
-from app_admin.models import Reservation, ItemReservation, Item
+from app_admin.models import Reservation, ItemReservation, Item, Technician
 from django.http import JsonResponse
 
 
@@ -138,6 +138,7 @@ def reservation_create(request):
                 return redirect('user-reservation-list')
         else:
             context = {
+                'technicians': Technician.objects.all().order_by('-id'),
                 'items': Item.objects.all().order_by('-id'),
                 'item_reservations': ItemReservation.objects.filter(user=request.user, reservation=None).order_by('-id')
             }

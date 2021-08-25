@@ -22,6 +22,7 @@ class Reservation(models.Model):
     nik = models.CharField(max_length=80)
     name = models.CharField(max_length=80)
     status = models.IntegerField(choices=ReservationStatus.choices, default=ReservationStatus.PANDING)
+    undo = models.BooleanField(default=False, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -41,4 +42,12 @@ class ItemReservation(models.Model):
 
     def __str__(self):
         return self.item.name
-    
+
+class Technician(models.Model):
+    nik = models.CharField(max_length=80)
+    name = models.CharField(max_length=80)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.nik
