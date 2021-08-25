@@ -7,6 +7,7 @@
         * Ubah Status Reservasi (Diterima/Ditolak)
         * List User
         * List Reservasi berdasarkan User
+        * List Teknisi
         * Export data reservasi ke PDF
     * USER
         * List Reservasi
@@ -16,7 +17,7 @@
     * Register
 
 ## Menginstall Paket Yang Diperlukan ##
-Aplikasi ini hanya membutuhkan satu paket Python "Django", itu dibangun dan diuji dengan versi Django 2.x. Untuk menginstalnya gunakan perintah berikut:
+Aplikasi ini hanya membutuhkan paket instalasi Python3 dan Django Framework, itu dibangun dan diuji dengan versi Django 2.x. Untuk menginstalnya gunakan perintah berikut:
 
 ```
 pip install -r requirements.txt
