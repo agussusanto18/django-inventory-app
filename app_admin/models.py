@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from constants.choices import ReservationStatus
+from datetime import datetime 
 
 
 class Item(models.Model):
@@ -18,7 +19,7 @@ class Item(models.Model):
 
 class Reservation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    schedule = models.DateTimeField()
+    schedule = models.DateTimeField(default=datetime.now, blank=True, null=True)
     nik = models.CharField(max_length=80)
     name = models.CharField(max_length=80)
     status = models.IntegerField(choices=ReservationStatus.choices, default=ReservationStatus.PANDING)

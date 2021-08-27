@@ -4,7 +4,7 @@
 {% block title %} Tambah Reservasi {% endblock title %}
 
 {% block styles %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css"> -->
 <link rel="stylesheet" href="{% static 'theme/plugins/select2/dist/css/select2.min.css' %}">
 {% endblock styles %}
 
@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label for="schedule">Tanggal Pengambilan</label>
-                <input type="date" name="schedule" id="schedule" class="form-control" placeholder="Tanggal Pengambilan" required>
+                <input type="date" name="schedule" id="schedule" value="{% now 'Y-m-d' %}" class="form-control" placeholder="Tanggal Pengambilan" required>
             </div>
         </form>
     </div>

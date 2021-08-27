@@ -8,6 +8,8 @@ from app_user.forms import SignUpForm, UserForm, UserDetailForm
 from app_user.models import UserDetail
 from app_admin.models import Reservation, ItemReservation, Item, Technician
 from django.http import JsonResponse
+from datetime import datetime
+
 
 
 @login_required(login_url='/signin/')
@@ -127,6 +129,7 @@ def reservation_create(request):
             nik = request.POST['nik']
             name = request.POST['name']
             schedule = request.POST['schedule']
+            
             reservation = Reservation.objects.create(
                 user=request.user,
                 nik=nik,
